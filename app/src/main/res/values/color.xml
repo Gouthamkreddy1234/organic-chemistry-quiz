@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#f44336</color>
+    <color name="colorAccent">#EF5350</color>
+
+    <color name="translucent">#33000000</color>
+    <color name="gray">#ffe0e0e0</color>
+    <color name="dgray">#ff5d5d5d</color>
+    <color name="ddgray">#ff424242</color>
+    <color name="dddgray">#de000000</color>
+    <color name="white">#ffffff</color>
+
+    <color name="about_firstcard">#64B5F6</color>
+    <color name="facebook_login">#4DD0E1</color>
+    <color name="sec1">#EDE7F6</color>
+    <color name="sponser">#F50057</color>
+    <color name="events">#F44336</color>
+    <color name="rest">#263238</color>
+    <color name="teal">#1e988b</color>
+    <color name="eventname">#009587</color>
+    <color name="eventnamepressed">#ff006557</color>
+    <color name="pressed">#B71C1C</color>
+
+    <color name="gold">#eaa603</color>
+    <color name="red">#c33c36</color>
+    <color name="blue">#5473aa</color>
+    <color name="green">#019956</color>
+    <color name="yellow">#e4b94a</color>
+    <color name="c1" >#ff7b29a4</color>
+    <color name="c2" >#ffff80ba</color>
+    <color name="c3" >#fffeef50</color>
+    <color name="tgray">#22000000</color>
+</resources>

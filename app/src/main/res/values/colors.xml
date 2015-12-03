@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="procolor">#4CAF50</color>
+    <color name="teamcolor">#2e4b8d</color>
+    <color name="feedcolor">#56ccc8</color>
+    <color name="login_but">#fffd6638</color>
+    <color name="lightblue">#90CAF9</color>
+    <color name="violet">#3F51B5</color>
+    <color name="blu">#2196F3</color>
+    <color name="lt">#B2DFDB</color>
+    <color name="lts">#E0F2F1</color>
+
+</resources>
