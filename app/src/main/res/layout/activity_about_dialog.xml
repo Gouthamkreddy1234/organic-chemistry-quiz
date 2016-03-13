@@ -6,38 +6,135 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    android:layout_gravity="center_vertical"
+    android:weightSum="100"
     android:background="@android:color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:layout_weight="30">
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="match_parent"
         android:gravity="center"
         android:text="0"
-        android:textSize="250dp"
-        android:id="@+id/score"
-        android:layout_gravity="center"/>
+        android:textSize="150sp"
+        android:textColor="@color/gray"
+        android:textStyle="bold"
+        android:id="@+id/score"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="10">
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:id="@+id/fulltv"
-            android:textStyle="bold"
-            android:textSize="30dp"
+            android:layout_height="match_parent"
             android:gravity="center"
-            android:text=" FINAL SCORE\n"
-            android:textColor="#ff0099cc"
-            android:padding="20dp"
-            />
-    <at.markushi.ui.CircleButton
-        android:layout_width="80dip"
-        android:layout_height="80dip"
-        android:src="@drawable/ic_arrow_forward_white"
-        app:cb_color="#99CC00"
+            android:text="Maximum Score: "
+            android:id="@+id/max"
+            android:textSize="20sp"
+            android:textColor="@color/blue"
+            android:textStyle="bold"
+            android:layout_gravity="center"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="10">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:textColor="@color/blue"
+            android:textStyle="bold"
+            android:text="Average Score: "
+            android:id="@+id/avg"
+            android:layout_gravity="center"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="10">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textColor="@color/blue"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:text="Total participants: "
+            android:id="@+id/totalpart"
+            android:layout_gravity="center"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="10">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textColor="@color/blue"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:text="Rank: "
+            android:id="@+id/rank"
+            android:layout_gravity="center"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="10">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textColor="@color/green"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:text="share quiz on whatsapp"
+            android:id="@+id/share"
+            android:layout_gravity="center"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:gravity="center"
         android:layout_gravity="center"
-        android:id="@+id/but"
-        app:cb_pressedRingWidth="8dip" />
+        android:layout_weight="20">
+
+        <at.markushi.ui.CircleButton
+            android:layout_width="80dip"
+            android:layout_height="80dip"
+            android:src="@drawable/ic_arrow_forward_white"
+            app:cb_color="#99CC00"
+            android:layout_gravity="center"
+            android:id="@+id/but"
+            app:cb_pressedRingWidth="8dip" />
+
+        </LinearLayout>
+
 
 
 </LinearLayout>

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
@@ -16,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -48,12 +50,14 @@ public class Listactivity extends ActionBarActivity implements AdapterView.OnIte
     //String uri="http://edufb.esy.es/q/new.php?id=X";
     String uri="http://iitjeeorganic.com/halfwaydown/android/api/freequiz.php?id=X";
     private SwipeRefreshLayout swipeRefreshLayout;
+    LinearLayout ll;
 
     private static String TAG = MainActivity.class.getSimpleName();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_listactivity);
+       ll = (LinearLayout)findViewById(R.id.ll);
 
         //------------------------------------------
 
@@ -146,25 +150,25 @@ public class Listactivity extends ActionBarActivity implements AdapterView.OnIte
                            setdata(jsonResponse);
 
                             //-----------------------toast---------------------
-                            /*Toast.makeText(getApplicationContext(),
-                                    " Refreshed!!",
-                                    Toast.LENGTH_LONG).show();*/
+                            Snackbar.make(ll, "Refreshed", Snackbar.LENGTH_LONG)
+                                    .setActionTextColor(getResources().getColor(R.color.lightblue))//imp
+                                    .setDuration(3000).show();
 
-                            Toast toast = Toast.makeText(getApplicationContext(), "Refreshed..!!", Toast.LENGTH_LONG);
-                            View vieew = toast.getView();
+                            /*View vieew = toast.getView();
                             //  vieew.setBackgroundColor(Color.parseColor("#BD8BDC"));
                             vieew.setBackgroundResource(R.drawable.textinputborder);
                             toast.setView(vieew);
                             toast.show(); //This displays the toast for the specified lenght.
-                              //-------------------------------------------------
-
+                              //-------------------custom toast------------------------------
+                             */
 
 
                         } catch (Exception e) {
                             e.printStackTrace();
-                            Toast.makeText(getApplicationContext(),
-                                    "Looks like our Servers are down!! :( :(",
-                                    Toast.LENGTH_LONG).show();
+                            Snackbar.make(ll, "Error", Snackbar.LENGTH_LONG)
+                                    .setAction("Refreshed", null)
+                                    .setActionTextColor(getResources().getColor(R.color.lightblue))//imp
+                                    .setDuration(3000).show();
                         }
 
 
@@ -193,7 +197,10 @@ public class Listactivity extends ActionBarActivity implements AdapterView.OnIte
                             }
                             else
                             {
-                               Toast.makeText(getBaseContext(),"Connection too slow!!!! :/",Toast.LENGTH_LONG).show();
+                                Snackbar.make(ll, "Connection too slow!", Snackbar.LENGTH_LONG)
+                                        .setAction("Refreshed", null)
+                                        .setActionTextColor(getResources().getColor(R.color.lightblue))//imp
+                                        .setDuration(3000).show();
                             }
 
                         }
@@ -203,7 +210,10 @@ public class Listactivity extends ActionBarActivity implements AdapterView.OnIte
 
                 } else {
 
-                    Toast.makeText(getBaseContext(),"Please check your internet connection :/",Toast.LENGTH_LONG).show();
+                    Snackbar.make(ll, "Please check your internet connection", Snackbar.LENGTH_LONG)
+                            .setAction("Refreshed", null)
+                            .setActionTextColor(getResources().getColor(R.color.lightblue))//imp
+                            .setDuration(3000).show();
                     Log.v("Home", "############################You are not online!!!!");
                 }
 
@@ -302,6 +312,7 @@ public class Listactivity extends ActionBarActivity implements AdapterView.OnIte
         uri=uri.replace("X",Integer.toString(ids[position]));//ids and totalqs are auto refreshed when a new request is made
         intent.putExtra("totalq",Integer.toString(totalqs[position]));
         intent.putExtra( "URI",uri);
+        intent.putExtra("quizname",names.get(position));
         startActivity(intent);
 
     }

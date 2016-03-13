@@ -8,6 +8,7 @@
         <item name="android:colorPrimary">#009688</item>
         <item name="android:colorAccent">@android:color/white</item>
         <item name="android:colorPrimaryDark">#009688</item>
+        <item name="android:alertDialogTheme">@style/Theme.AppCompat.Light.Dialog</item>
     </style>
 
 

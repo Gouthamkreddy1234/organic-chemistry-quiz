@@ -10,5 +10,6 @@
     <string name="title_activity_list">ListActivity</string>
     <string name="title_activity_listactivity">Listactivity</string>
     <string name="Swipe">Swipe</string>
+    <string name="snackbar">snack</string>
 
 </resources>

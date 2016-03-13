@@ -6,9 +6,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -19,6 +22,7 @@ import android.view.View;
 import android.view.animation.AnticipateInterpolator;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.ScrollView;
@@ -79,18 +83,18 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     private Toolbar toolbar;
     private ImageLoader imageLoader;
     private FloatingActionButton next;
-    public static MyCountDownTimer countDownTimer ;
+    public  MyCountDownTimer countDownTimer=new MyCountDownTimer(61000,1000);//one object only;
 
     private TextView cor,inc,tot;
-    String totalq;
+    String totalq,quizname;
+    LinearLayout ll;
 
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        countDownTimer=new MyCountDownTimer(61000 /* 20 Sec */,
-                1000);//one object only
+       k=0;
         setContentView(R.layout.activity_main);
         progressBar=(ProgressBar)findViewById(R.id.progresbar);
         progressBar.setVisibility(View.VISIBLE);
@@ -99,9 +103,10 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         ObservableScrollView scrollview = (ObservableScrollView) findViewById(R.id.scrollview);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.next);
         fab.attachToScrollView(scrollview);
+        ll= (LinearLayout)findViewById(R.id.ll2);
 
 
-
+       quizname= getIntent().getStringExtra("quizname");
         url = getIntent().getStringExtra("URI");
         totalq = getIntent().getStringExtra("totalq");
 
@@ -110,7 +115,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         toolbar.setTitleTextColor(getResources().getColor(R.color.white));
         setSupportActionBar(toolbar);
-        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+        ActionBar actionBar = getSupportActionBar();
         actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.teal)));
         actionBar.setTitle("ORGANIC CHEMISTRY ");
         toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_back_white));
@@ -139,9 +144,9 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         tot = (TextView) findViewById(R.id.tot);
 
         Typeface myTypeface = Typeface.createFromAsset(getAssets(), "fonts/pie.ttf");
-        cor.setTypeface(myTypeface);
+       /* cor.setTypeface(myTypeface);
         inc.setTypeface(myTypeface);
-        tot.setTypeface(myTypeface);
+        tot.setTypeface(myTypeface);*/
 
         t1 = (RadioButton) findViewById(R.id.t1);
         t2 = (RadioButton) findViewById(R.id.t2);
@@ -170,7 +175,14 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         t4.setOnCheckedChangeListener(this);
 
 
-        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder1;
+
+        //AlertDialog.Builder builder;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            builder1 = new AlertDialog.Builder(this, android.R.style.Theme_Material_Light_Dialog_Alert);//theme problem
+        } else {
+            builder1 = new AlertDialog.Builder(this);
+        }
         builder1.setTitle("Test Information");
         builder1.setMessage("This test would have " + totalq + " questions and you would get 1 minute for each question. All the best! ;)");
         builder1.setCancelable(true);//change
@@ -181,7 +193,15 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                         getdata();
                     }
                 });
-
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            builder1.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialog) {
+                    getdata();
+                    Log.d("ondismiss","dismissed");
+                }
+            });
+        }
         AlertDialog alert11 = builder1.create();
         alert11.show();
     }
@@ -223,7 +243,10 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                             }
                             else
                             {
-                                Toast.makeText(getBaseContext(),"Connection too slow!!!!",Toast.LENGTH_LONG).show();
+                                Snackbar.make(ll, "Connection too slow!", Snackbar.LENGTH_LONG)
+                                        .setAction("Refreshed", null)
+                                        .setActionTextColor(getResources().getColor(R.color.lightblue))//imp
+                                        .setDuration(3000).show();
                             }
 
                         }
@@ -233,7 +256,10 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
                 } else {
 
-                    Toast.makeText(getBaseContext(),"Please check your internet connection",Toast.LENGTH_LONG).show();
+                    Snackbar.make(ll, "Please check your internet connection!", Snackbar.LENGTH_LONG)
+                            .setAction("Refreshed", null)
+                            .setActionTextColor(getResources().getColor(R.color.lightblue))//imp
+                            .setDuration(3000).show();
                     Log.v("Home", "############################You are not online!!!!");
                     progressBar.setVisibility(View.INVISIBLE);
                 }
@@ -299,7 +325,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                     srcq = stockArr[t].substring(stockArr[t].indexOf("src") + 5, stockArr[t].indexOf("png") +3);
                     srcq="http://iitjeeorganic.com/halfwaydown/android/api/"+srcq;
                     imageLoader.get(srcq, ImageLoader.getImageListener(
-                            qiarr[t], R.drawable.abc_textfield_search_default_mtrl_alpha, R.drawable.abc_ab_share_pack_holo_dark));
+                            qiarr[t], R.drawable.abc_textfield_search_default_mtrl_alpha, R.drawable.abc_ab_share_pack_mtrl_alpha));
                 }
 
             }
@@ -326,7 +352,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
                 // Loading image with placeholder and error image
                 imageLoader.get(srcq_A, ImageLoader.getImageListener(
-                        v1, R.drawable.abc_textfield_search_default_mtrl_alpha, R.drawable.abc_ab_share_pack_holo_dark));
+                        v1, R.drawable.abc_textfield_search_default_mtrl_alpha, R.drawable.abc_ab_share_pack_mtrl_alpha));
 
             }
             else
@@ -353,7 +379,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
                 // Loading image with placeholder and error image
                 imageLoader.get(srcq_B, ImageLoader.getImageListener(
-                        v2, R.drawable.abc_textfield_search_default_mtrl_alpha, R.drawable.abc_ab_share_pack_holo_dark));
+                        v2, R.drawable.abc_textfield_search_default_mtrl_alpha, R.drawable.abc_ab_share_pack_mtrl_alpha));
 
             }
             else
@@ -379,7 +405,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
                 // Loading image with placeholder and error image
                 imageLoader.get(srcq_C, ImageLoader.getImageListener(
-                        v3, R.drawable.abc_textfield_search_default_mtrl_alpha, R.drawable.abc_ab_share_pack_holo_dark));
+                        v3, R.drawable.abc_textfield_search_default_mtrl_alpha, R.drawable.abc_ab_share_pack_mtrl_alpha));
 
             }
             else
@@ -406,7 +432,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
                 // Loading image with placeholder and error image
                 imageLoader.get(srcq_D, ImageLoader.getImageListener(
-                        v4, R.drawable.abc_textfield_search_default_mtrl_alpha, R.drawable.abc_ab_share_pack_holo_dark));
+                        v4, R.drawable.abc_textfield_search_default_mtrl_alpha, R.drawable.abc_ab_share_pack_mtrl_alpha));
 
             }
             else
@@ -578,6 +604,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
                         finish();//works!!//perfect!-current activity
                         Intent intent = new Intent(getApplicationContext(), AboutDialog.class);
+                        intent.putExtra("quizname",quizname);
                         intent.putExtra("key",Integer.toString(t));
                         startActivity(intent);
                     }
@@ -718,18 +745,10 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
             }
 
 
-            if (k != (length -1))
-            {
+            if (k != (length -1)) {
                 k++;
                 Log.d("total", Integer.toString(total));
                 displayData(k);
-            }
-            else {
-
-                finish();//
-                Intent intent = new Intent(getApplicationContext(), AboutDialog.class);
-                intent.putExtra("key",Integer.toString(t));
-                startActivity(intent);
             }
 
 
@@ -746,7 +765,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
         //super.onBackPressed();
         Log.d("back button", "back button pressed");
-        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder1=new AlertDialog.Builder(this);
         builder1.setTitle("ALERT!!");
         builder1.setMessage("Do you want to abort the quiz?.");
         builder1.setCancelable(true);

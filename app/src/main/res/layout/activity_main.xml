@@ -18,6 +18,7 @@
     android:layout_alignParentTop="true"
     android:layout_centerHorizontal="true"
     android:background="#ffffff"
+    android:id="@+id/ll2"
     android:weightSum="100">
 
         <include layout="@layout/toolbar_layout"
@@ -293,7 +294,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="correct : 0"
+                    android:text="Correct : 0"
                     android:textColor="#26A69A"
                     android:id="@+id/tcorrect" />
 
@@ -301,7 +302,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="incorrect : 0"
+                    android:text="Incorrect : 0"
                     android:textColor="@android:color/holo_red_dark"
                     android:id="@+id/incorrect" />
 
@@ -309,7 +310,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="total : 0"
+                    android:text="Total :  0"
                     android:textColor="#263238"
                     android:id="@+id/tot" />
 
