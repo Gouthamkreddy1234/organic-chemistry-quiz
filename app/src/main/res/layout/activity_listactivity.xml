@@ -19,11 +19,117 @@
         android:layout_height="match_parent"
         xmlns:android="http://schemas.android.com/apk/res/android">
 
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
     <ListView
         android:id="@+id/mobile_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
     </ListView>
+
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/progressBar"
+                android:visibility="visible"
+                android:layout_gravity="center" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:weightSum="100"
+                android:id="@+id/error"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0px"
+                    android:layout_weight="60">
+
+                    <ImageView
+                        android:padding="80px"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/connection"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0px"
+                    android:layout_weight="40"
+                    android:weightSum="100"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0px"
+                        android:layout_height="match_parent"
+                        android:layout_weight="30"></LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0px"
+                        android:layout_height="match_parent"
+                        android:layout_weight="40"
+                        android:weightSum="100"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="0px"
+                            android:layout_weight="30">
+
+
+                            <Button
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:text="Retry"
+                                android:textColor="#009688"
+                                android:id="@+id/retry"
+                                android:background="@drawable/button_back"
+                                ></Button>
+
+
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="0px"
+                            android:layout_weight="30">
+
+
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="0px"
+                            android:layout_weight="40"></LinearLayout>
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="0px"
+                        android:layout_height="match_parent"
+                        android:layout_weight="30"></LinearLayout>
+
+
+                </LinearLayout>
+
+
+
+
+            </LinearLayout>
+
+
+        </FrameLayout>
     </android.support.v4.widget.SwipeRefreshLayout>
 
 </LinearLayout>

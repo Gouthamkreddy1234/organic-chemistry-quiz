@@ -17,10 +17,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
@@ -46,11 +49,14 @@ public class Listactivity extends ActionBarActivity implements AdapterView.OnIte
    public  Toast toast;
      int[] ids = new int[1000];
      int[] totalqs = new int[1000];
+    private ProgressBar progressBar;
+    boolean flag=false;
     protected  int timeout  = 5;
     //String uri="http://edufb.esy.es/q/new.php?id=X";
     String uri="http://iitjeeorganic.com/halfwaydown/android/api/freequiz.php?id=X";
     private SwipeRefreshLayout swipeRefreshLayout;
-    LinearLayout ll;
+    LinearLayout ll,linearLayout;
+    Button retry;
 
     private static String TAG = MainActivity.class.getSimpleName();
     @Override
@@ -58,6 +64,25 @@ public class Listactivity extends ActionBarActivity implements AdapterView.OnIte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_listactivity);
        ll = (LinearLayout)findViewById(R.id.ll);
+        progressBar=(ProgressBar)findViewById(R.id.progressBar);
+        linearLayout = (LinearLayout)findViewById(R.id.error);
+        retry = (Button)findViewById(R.id.retry);
+
+        retry.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                linearLayout.setVisibility(View.GONE);
+                makeJsonArrayRequest();
+
+            }
+        });
+
+
+
+        Snackbar.make(ll, "Fetching Quizes from Server....", Snackbar.LENGTH_LONG)
+                .setActionTextColor(getResources().getColor(R.color.lightblue))//imp
+                .setDuration(3000).show();
 
         //------------------------------------------
 
@@ -145,8 +170,9 @@ public class Listactivity extends ActionBarActivity implements AdapterView.OnIte
                         Log.d(TAG, response.toString());
 
                         try {
-
+                             flag= true;
                             jsonResponse = response;
+                            progressBar.setVisibility(View.INVISIBLE);
                            setdata(jsonResponse);
 
                             //-----------------------toast---------------------
@@ -169,6 +195,8 @@ public class Listactivity extends ActionBarActivity implements AdapterView.OnIte
                                     .setAction("Refreshed", null)
                                     .setActionTextColor(getResources().getColor(R.color.lightblue))//imp
                                     .setDuration(3000).show();
+                            progressBar.setVisibility(View.INVISIBLE);
+
                         }
 
 
@@ -177,48 +205,21 @@ public class Listactivity extends ActionBarActivity implements AdapterView.OnIte
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
-
-
-
-                if (AppStatus.getInstance(getBaseContext()).isOnline()) {
-
-                   //Toast t = Toast.makeText(getBaseContext(),"You are online!!!!",8000).show();
-
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-
-
-                            --timeout;
-                            Log.d("timeout_count",Integer.toString(timeout));
-                            if(timeout <=0)
-                            {
-                                makeJsonArrayRequest();
-                            }
-                            else
-                            {
-                                Snackbar.make(ll, "Connection too slow!", Snackbar.LENGTH_LONG)
-                                        .setAction("Refreshed", null)
-                                        .setActionTextColor(getResources().getColor(R.color.lightblue))//imp
-                                        .setDuration(3000).show();
-                            }
-
-                        }
-                    });
-
-
-
-                } else {
-
-                    Snackbar.make(ll, "Please check your internet connection", Snackbar.LENGTH_LONG)
-                            .setAction("Refreshed", null)
-                            .setActionTextColor(getResources().getColor(R.color.lightblue))//imp
-                            .setDuration(3000).show();
-                    Log.v("Home", "############################You are not online!!!!");
-                }
-
+                Snackbar.make(ll, "Please check your internet connection", Snackbar.LENGTH_LONG)
+                        .setAction("Refreshed", null)
+                        .setActionTextColor(getResources().getColor(R.color.lightblue))//imp
+                        .setDuration(3000).show();
+                progressBar.setVisibility(View.INVISIBLE);
+                if(!flag)
+                linearLayout.setVisibility(View.VISIBLE);
             }
+
         });
+
+        req.setRetryPolicy(new DefaultRetryPolicy(
+                5000,
+                5,
+                2));
 
         AppController.getInstance().addToRequestQueue(req);
     }
@@ -265,6 +266,7 @@ public class Listactivity extends ActionBarActivity implements AdapterView.OnIte
     void refreshItems() {
         // Load items
         // ...
+        linearLayout.setVisibility(View.GONE);
         new Handler().postDelayed(new Runnable() {
             @Override public void run() {
                 swipeRefreshLayout.setRefreshing(false);//this should be false for roatation

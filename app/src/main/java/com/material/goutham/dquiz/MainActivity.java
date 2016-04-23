@@ -30,6 +30,7 @@ import android.widget.Scroller;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
@@ -230,7 +231,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                     //Toast t = Toast.makeText(getBaseContext(),"You are online!!!!",8000).show();
                     //while im connected to the internet but my app isn't responding
 
-                    new Thread(new Runnable() {
+                    /*new Thread(new Runnable() {
                         @Override
                         public void run() {
 
@@ -262,13 +263,26 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                             .setDuration(3000).show();
                     Log.v("Home", "############################You are not online!!!!");
                     progressBar.setVisibility(View.INVISIBLE);
+                }*/
+
                 }
 
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+                Snackbar.make(ll, "Please check your internet connection", Snackbar.LENGTH_LONG)
+                        .setAction("Refreshed", null)
+                        .setActionTextColor(getResources().getColor(R.color.lightblue))//imp
+                        .setDuration(3000).show();
+                progressBar.setVisibility(View.INVISIBLE);
             }
         });
 
 
-        //--------------------------------------------------------------------
+        //-----------------------------prevent double posting here(double request) double countdown timer updation---------------------------------------
+
+        req.setRetryPolicy(new DefaultRetryPolicy(
+                500000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         AppController.getInstance().addToRequestQueue(req, "feeds");
 
 

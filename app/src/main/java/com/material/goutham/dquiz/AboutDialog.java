@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.SpannableString;
@@ -13,9 +14,11 @@ import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -38,10 +41,14 @@ public class AboutDialog extends Activity {
     String link ="https://goo.gl/FVBBni";
     String url ="http://iitjeeorganic.com/QuizApi.php?quizName=X&marks=Y";
     String quizname,total;
+    private LinearLayout ll;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about_dialog);
+
+        ll= (LinearLayout)findViewById(R.id.ll3);
 
        //get intent data via bundle
         quizname= getIntent().getStringExtra("quizname");
@@ -140,15 +147,21 @@ public class AboutDialog extends Activity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                VolleyLog.d("error2", "Error: " + error.getMessage());
-                Toast.makeText(getApplicationContext(),
-                        error.getMessage(), Toast.LENGTH_SHORT).show();
-                // hide the progress dialog
+                VolleyLog.d("Error!", "Error: " + error.getMessage());
+                Snackbar.make(ll, "Please check your internet connection", Snackbar.LENGTH_LONG)
+                        .setAction("Refreshed", null)
+                        .setActionTextColor(getResources().getColor(R.color.lightblue))//imp
+                        .setDuration(3000).show();
                 progress.dismiss();
 
             }
         });
 
+
+        jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(
+                5000,
+                5,
+                2));
 
         AppController.getInstance().addToRequestQueue(jsonObjReq, "aboutdialog");
 
